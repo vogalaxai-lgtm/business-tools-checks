@@ -38,7 +38,9 @@ function examples(list) {
 
 export function render(p, { base, site }) {
   const url = p.slug === "404" ? "" : p.slug ? `/${p.slug}/` : "/";
-  const body = (p.body || "").replace(/\{\{examples:([^}]+)\}\}/g, (_, l) => examples(l));
+  const body = (p.body || "")
+    .replace(/\{\{examples:([^}]+)\}\}/g, (_, l) => examples(l))
+    .replace(/href="\//g, `href="${base}/`);
   const tool = p.tool ? TOOLS[p.tool](p.prefill) : "";
   const link = ([href, label]) => `<a href="${base}${href}"${href === url ? ' aria-current="page"' : ""}>${label}</a>`;
   return `<!DOCTYPE html>
