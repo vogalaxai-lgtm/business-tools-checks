@@ -15,8 +15,14 @@ const TOOLS = {
 <input id="amt" data-in="amount" inputmode="decimal" autocomplete="off" placeholder="1,250.50" value="${v}">
 <div class="opts">
 <label class="inline"><input type="checkbox" data-opt="dollarsWord"> Add “Dollars”</label>
-<select data-opt="letterCase" aria-label="Letter case"><option value="sentence">Sentence case</option><option value="title">Title Case</option><option value="upper">UPPERCASE</option></select>
-<select data-opt="cents" aria-label="Cents style"><option value="fraction">Cents as 50/100</option><option value="words">Cents in words</option></select>
+<div class="option-field">
+<label for="letter-case">Letter case</label>
+<select id="letter-case" data-opt="letterCase"><option value="sentence">Sentence case</option><option value="title">Title Case</option><option value="upper">UPPERCASE</option></select>
+</div>
+<div class="option-field">
+<label for="cents-style">Cents style</label>
+<select id="cents-style" data-opt="cents"><option value="fraction">Cents as 50/100</option><option value="words">Cents in words</option></select>
+</div>
 </div>
 <div class="check" aria-live="polite"><div class="check-amt" data-out="numeric">$0.00</div>
 <div class="check-words"><span data-out="words">Your result appears here.</span> <span class="pre">Dollars</span></div></div>
