@@ -1,3 +1,4 @@
+import { writerTool } from "./writer-tool.mjs";
 import { formatCheck } from "../js/check.js";
 
 export const NAV = [
@@ -10,24 +11,7 @@ export const NAV = [
 const FOOTER = [["/about/", "About"], ["/privacy/", "Privacy"], ["/editorial-policy/", "Editorial policy"], ["/disclaimer/", "Disclaimer"], ["/contact/", "Contact"]];
 
 const TOOLS = {
-  writer: (v = "") => `<section class="card" data-tool="writer" aria-label="Check writer">
-<label for="amt">Amount (USD)</label>
-<input id="amt" data-in="amount" inputmode="decimal" autocomplete="off" placeholder="1,250.50" value="${v}">
-<div class="opts">
-<label class="inline"><input type="checkbox" data-opt="dollarsWord"> Add “Dollars”</label>
-<div class="option-field">
-<label for="letter-case">Letter case</label>
-<select id="letter-case" data-opt="letterCase"><option value="sentence">Sentence case</option><option value="title">Title Case</option><option value="upper">UPPERCASE</option></select>
-</div>
-<div class="option-field">
-<label for="cents-style">Cents style</label>
-<select id="cents-style" data-opt="cents"><option value="fraction">Cents as 50/100</option><option value="words">Cents in words</option></select>
-</div>
-</div>
-<div class="check" aria-live="polite"><div class="check-amt" data-out="numeric">$0.00</div>
-<div class="check-words"><span data-out="words">Your result appears here.</span> <span class="pre">Dollars</span></div></div>
-<p class="err" role="alert" data-out="error"></p>
-<button class="btn" data-act="copy" disabled>Copy words</button></section>`,
+  writer: (v = "") => writerTool(v),
   checker: () => `<section class="card" data-tool="checker" aria-label="Amount checker">
 <label for="c-amt">Amount in numbers</label><input id="c-amt" data-in="amount" inputmode="decimal" autocomplete="off" placeholder="1,250.50">
 <label for="c-words">Amount in words</label><input id="c-words" data-in="words" autocomplete="off" placeholder="One thousand two hundred fifty and 50/100">

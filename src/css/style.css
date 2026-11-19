@@ -18,3 +18,11 @@ input:focus,select:focus,.btn:focus-visible{outline:3px solid rgba(49,87,213,.45
 .prose h2{margin:32px 0 8px;font-size:22px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}th{font-size:13px;color:var(--muted)}
 .answer{border-left:4px solid var(--primary);background:var(--surface);padding:12px 16px;border-radius:8px}.meta{color:var(--muted);font-size:13px}
 .site-footer{border-top:1px solid var(--border);padding:22px 0;color:var(--muted);font-size:13px;text-align:center}
+
+/* smart-update */
+.hero-input{font-size:22px;font-weight:700;min-height:58px}
+.note{color:var(--muted);font-size:13px;margin:6px 0 0;min-height:1em}
+.chip{margin:8px 0 0;padding:8px 14px;border:1px solid var(--primary);border-radius:999px;background:transparent;color:var(--primary);font-weight:600;cursor:pointer}
+details{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
+summary{cursor:pointer;font-weight:650;font-size:14px;color:var(--muted)}
+details .opts{margin-top:12px}details input[data-in=verify]{margin-top:10px}
