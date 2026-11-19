@@ -28,7 +28,7 @@ jobs:
         env:
           # Project site: "/<repo-name>". With a custom domain, set BASE to "" and SITE_URL to your domain.
           BASE: /${{ github.event.repository.name }}
-          SITE_URL: ${{ vars.SITE_URL || 'https://example.com' }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://vogalaxai-lgtm.github.io' }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with: { path: dist }
