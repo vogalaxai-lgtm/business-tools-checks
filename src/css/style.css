@@ -26,3 +26,9 @@ input:focus,select:focus,.btn:focus-visible{outline:3px solid rgba(49,87,213,.45
 details{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
 summary{cursor:pointer;font-weight:650;font-size:14px;color:var(--muted)}
 details .opts{margin-top:12px}details input[data-in=verify]{margin-top:10px}
+
+/* v2-update */
+.nb{white-space:nowrap}
+.section-title{font-size:17px;margin:22px 0 8px}
+.hint{color:var(--muted);font-size:13px;margin:0 0 10px}
+.check-words{font-size:18px;line-height:1.5;min-height:3em}

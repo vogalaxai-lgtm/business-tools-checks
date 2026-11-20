@@ -1,5 +1,6 @@
 import { writerTool } from "./writer-tool.mjs";
 import { formatCheck } from "../js/check.js";
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 export const NAV = [
   ["/", "Tool"],
@@ -35,11 +36,11 @@ export function render(p, { base, site }) {
   const link = ([href, label]) => `<a href="${base}${href}"${href === url ? ' aria-current="page"' : ""}>${label}</a>`;
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${p.title}</title><meta name="description" content="${p.description}">
+<title>${esc(p.title)}</title><meta name="description" content="${esc(p.description)}">
 ${p.noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${site}${base}${url}">`}
 <link rel="stylesheet" href="${base}/assets/style.css"></head>
 <body><header class="site-header"><div class="wrap"><a class="brand" href="${base}/">Business<span>Tools</span></a><nav aria-label="Main">${NAV.map(link).join("")}</nav></div></header>
-<main class="wrap"><h1>${p.h1}</h1>${p.lead ? `<p class="lead">${p.lead}</p>` : ""}${tool}
+<main class="wrap"><h1>${esc(p.h1)}</h1>${p.lead ? `<p class="lead">${esc(p.lead)}</p>` : ""}${tool}
 <article class="prose">${body}</article>${p.updated ? `<p class="meta">Last updated: ${p.updated}</p>` : ""}</main>
 <footer class="site-footer"><div class="wrap"><nav aria-label="Footer">${FOOTER.map(link).join("")}</nav><p>Educational tool, not legal or banking advice.</p></div></footer>
 ${p.tool ? `<script type="module" src="${base}/assets/js/ui.js"></script>` : ""}</body></html>`;

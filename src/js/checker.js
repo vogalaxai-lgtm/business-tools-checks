@@ -1,17 +1,9 @@
-import { formatCheck } from "./check.js";
+import { formatCheck, parseCheckAmount } from "./check.js";
+import { wordsToAmount } from "./parse-words.js";
 
-/** Lowercase and drop filler so "and", hyphens, "Dollars", punctuation don't cause false mismatches. */
-export function normalizeWords(text) {
-  return String(text ?? "").toLowerCase()
-    .replace(/[-–—_*]/g, " ")
-    .replace(/\b(dollars?|cents?|and|only)\b/g, " ")
-    .replace(/[^a-z0-9/ ]/g, "")
-    .replace(/\s+/g, " ").trim();
-}
-
-/** Compares a numeric amount with the words written on a check. Accepts both cents styles. */
+/** True only when the words are a grammatical check amount equal to the numbers. */
 export function verifyCheck(amount, words) {
-  const variants = ["fraction", "words"].map((cents) => formatCheck(amount, { cents }).words);
-  const got = normalizeWords(words);
-  return { match: variants.some((v) => normalizeWords(v) === got), expected: variants[0] };
+  const { dollars, cents } = parseCheckAmount(amount);
+  const match = wordsToAmount(words) === `${dollars}.${String(cents).padStart(2, "0")}`;
+  return { match, expected: formatCheck(amount).words };
 }
