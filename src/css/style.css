@@ -26,3 +26,17 @@ input:focus,select:focus,.btn:focus-visible{outline:3px solid rgba(49,87,213,.45
 details{margin-top:16px;border-top:1px solid var(--border);padding-top:12px}
 summary{cursor:pointer;font-weight:650;font-size:14px;color:var(--muted)}
 details .opts{margin-top:12px}details input[data-in=verify]{margin-top:10px}
+
+
+
+/* stage1-interface-v4 */
+.format-options .opts{grid-template-columns:1fr;align-items:stretch}
+.option-field label{margin:0 0 6px}
+.result-heading{font-size:18px;margin:18px 0 8px}
+.verify-help{color:var(--muted);margin:8px 0}
+.verify-options input[data-in=verify]{margin-top:0}
+.check-words{overflow-wrap:anywhere;word-break:normal}
+@media(max-width:360px){
+ .opts{grid-template-columns:1fr}
+ .check-amt{font-size:20px}
+}
