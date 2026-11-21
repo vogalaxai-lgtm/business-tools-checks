@@ -32,3 +32,12 @@ details .opts{margin-top:12px}details input[data-in=verify]{margin-top:10px}
 .section-title{font-size:17px;margin:22px 0 8px}
 .hint{color:var(--muted);font-size:13px;margin:0 0 10px}
 .check-words{font-size:18px;line-height:1.5;min-height:3em}
+
+/* v3-update */
+:root{--muted:#5b667c;--danger:#c0272d;--ok:#13795a;--link:#3157d5}
+@media (prefers-color-scheme:dark){:root{--muted:#a9b4cc;--danger:#ff8f8f;--ok:#4fd1a1;--link:#9db4ff}}
+nav a:hover,nav a[aria-current],.brand span,.chip{color:var(--link)}
+.chip{border-color:var(--link)}
+.opts>div{min-width:0}.opts label{margin-top:0}
+.hint-inline{color:var(--muted);font-weight:400}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--surface);padding:8px 12px;z-index:9}

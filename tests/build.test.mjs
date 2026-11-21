@@ -4,11 +4,11 @@ import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 
-const BASE = "/bt", SITE = "https://site.test";
-execFileSync("node", ["scripts/build.mjs"], { env: { ...process.env, BASE, SITE_URL: SITE }, stdio: "pipe" });
+const BASE = "/bt", SITE = "https://site.test", OUT = "dist-test-build";
+execFileSync("node", ["scripts/build.mjs"], { env: { ...process.env, BASE, SITE_URL: SITE, OUT_DIR: OUT }, stdio: "pipe" });
 const walk = (d) => readdirSync(d).flatMap((f) => (statSync(join(d, f)).isDirectory() ? walk(join(d, f)) : [join(d, f)]));
-const files = walk("dist"), html = files.filter((f) => f.endsWith(".html"));
-const resolves = (p) => { const rel = p.slice(BASE.length).split(/[?#]/)[0]; const f = join("dist", rel); return existsSync(f) && (statSync(f).isFile() || existsSync(join(f, "index.html"))); };
+const files = walk(OUT), html = files.filter((f) => f.endsWith(".html"));
+const resolves = (p) => { const rel = p.slice(BASE.length).split(/[?#]/)[0]; const f = join(OUT, rel); return existsSync(f) && (statSync(f).isFile() || existsSync(join(f, "index.html"))); };
 
 test("no placeholder site URL in the build", () => {
   for (const f of files) {
@@ -29,8 +29,8 @@ test("SEO: canonical, noindex, sitemap, robots", () => {
     if (f.endsWith("404.html")) assert.ok(h.includes('name="robots" content="noindex"'));
     else assert.ok(new RegExp(`rel="canonical" href="${SITE}${BASE}/`).test(h), f);
   }
-  const sm = readFileSync("dist/sitemap.xml", "utf8");
+  const sm = readFileSync(OUT + "/sitemap.xml", "utf8");
   assert.ok(!sm.includes("404") && sm.includes(`${SITE}${BASE}/how-to-write-a-check-with-cents/`));
   for (const [, u] of sm.matchAll(/<loc>([^<]+)<\/loc>/g)) assert.ok(resolves(u.replace(SITE, "")), u);
-  assert.ok(readFileSync("dist/robots.txt", "utf8").includes(`Sitemap: ${SITE}${BASE}/sitemap.xml`));
+  assert.ok(readFileSync(OUT + "/robots.txt", "utf8").includes(`Sitemap: ${SITE}${BASE}/sitemap.xml`));
 });

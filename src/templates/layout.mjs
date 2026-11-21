@@ -38,6 +38,7 @@ export function render(p, { base, site }) {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(p.title)}</title><meta name="description" content="${esc(p.description)}">
 ${p.noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${site}${base}${url}">`}
+<meta property="og:type" content="website"><meta property="og:title" content="${esc(p.title)}"><meta property="og:description" content="${esc(p.description)}">${p.noindex ? "" : `<meta property="og:url" content="${esc(site + base + url)}">`}
 <link rel="stylesheet" href="${base}/assets/style.css"></head>
 <body><header class="site-header"><div class="wrap"><a class="brand" href="${base}/">Business<span>Tools</span></a><nav aria-label="Main">${NAV.map(link).join("")}</nav></div></header>
 <main class="wrap"><h1>${esc(p.h1)}</h1>${p.lead ? `<p class="lead">${esc(p.lead)}</p>` : ""}${tool}
