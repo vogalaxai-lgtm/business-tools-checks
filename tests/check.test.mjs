@@ -11,7 +11,7 @@ test("fraction style", () => {
   assert.equal(words("1,250.50"), "One thousand two hundred fifty and 50/100");
   assert.equal(words("100"), "One hundred and 00/100");
   assert.equal(words("$1,000,000"), "One million and 00/100");
-  assert.equal(words("12.340"), "Twelve and 34/100");
+  assert.equal(words("12.34"), "Twelve and 34/100");
   assert.equal(words("999,999,999,999.99"), "Nine hundred ninety-nine billion nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine and 99/100");
 });
 

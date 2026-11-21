@@ -5,7 +5,7 @@ import { render } from "../src/templates/layout.mjs";
 
 const BASE = process.env.BASE ?? "";          // "/repo-name" on a project site, "" with a custom domain
 const SITE = process.env.SITE_URL ?? "https://example.com";
-const OUT = "dist";
+const OUT = process.env.OUT_DIR ?? "dist";
 
 await rm(OUT, { recursive: true, force: true });
 for (const p of pages) {

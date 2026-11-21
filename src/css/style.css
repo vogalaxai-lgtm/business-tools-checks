@@ -40,3 +40,28 @@ details .opts{margin-top:12px}details input[data-in=verify]{margin-top:10px}
  .opts{grid-template-columns:1fr}
  .check-amt{font-size:20px}
 }
+
+/* v2-update */
+.nb{white-space:nowrap}
+.section-title{font-size:17px;margin:22px 0 8px}
+.hint{color:var(--muted);font-size:13px;margin:0 0 10px}
+.check-words{font-size:18px;line-height:1.5;min-height:3em}
+
+/* v3-update */
+:root{--muted:#5b667c;--danger:#c0272d;--ok:#13795a;--link:#3157d5}
+@media (prefers-color-scheme:dark){:root{--muted:#a9b4cc;--danger:#ff8f8f;--ok:#4fd1a1;--link:#9db4ff}}
+nav a:hover,nav a[aria-current],.brand span,.chip{color:var(--link)}
+.chip{border-color:var(--link)}
+.opts>div{min-width:0}.opts label{margin-top:0}
+.hint-inline{color:var(--muted);font-weight:400}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--surface);padding:8px 12px;z-index:9}
+
+/* v4-update */
+.note:empty,.err:empty,.verdict:empty{display:none}
+.is-empty{color:var(--muted);font-style:italic;font-weight:400}
+.prose a,.lead a,.hint a{color:var(--link);text-decoration:underline}
+.site-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px}.site-footer nav a{margin:0;white-space:nowrap}
+.faq details{margin:0;padding:12px 0;border-top:1px solid var(--border)}.faq summary{color:var(--text);font-size:16px}.faq p{margin:8px 0 0}
+details.opts-wrap{margin-top:14px}
+@media (max-width:540px){main{padding:18px 0 40px}h1{font-size:25px;margin-bottom:6px}.lead{font-size:14px;margin-bottom:14px}.card{padding:16px}.hero-input{min-height:52px;font-size:20px}.section-title{margin-top:14px}.check{padding:12px}}
+

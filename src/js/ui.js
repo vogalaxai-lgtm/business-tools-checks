@@ -1,40 +1,38 @@
-import { formatCheck } from "./check.js";
-import { verifyCheck } from "./checker.js";
-import { interpret } from "./smart.js";
+import { writerView, checkerView } from "./view-model.js";
 
 const $ = (root, sel) => root.querySelector(sel);
-const out = (root, key, value) => { $(root, `[data-out=${key}]`).textContent = value; };
-const PLACEHOLDER = "Your result appears here.";
+const setVerdict = (box, v) => { box.className = "verdict" + (v ? (v.ok ? " ok" : " bad") : ""); box.textContent = v ? v.text : ""; };
+
+function setWords(el, text) {
+  el.textContent = "";
+  const m = /^(.*?)(\s?and \d{2}\/100)$/i.exec(text);
+  if (!m) { el.textContent = text; return; }
+  const keep = document.createElement("span");
+  keep.className = "nb"; keep.textContent = m[2];
+  el.append(m[1], keep);
+}
 
 function writer(root) {
   const input = $(root, "[data-in=amount]"), verify = $(root, "[data-in=verify]");
   const copy = $(root, "[data-act=copy]"), chip = $(root, "[data-act=suggest]");
   const opt = (k) => $(root, `[data-opt=${k}]`);
   let pending = null;
-
-  const view = (words, numeric, note, error, verdict) => {
-    out(root, "words", words); out(root, "numeric", numeric); out(root, "note", note); out(root, "error", error);
-    const box = $(root, "[data-out=result]"); box.className = "verdict " + (verdict?.ok ? "ok" : "bad"); box.textContent = verdict?.text ?? "";
-    copy.disabled = words === PLACEHOLDER || !!error;
-  };
   const run = () => {
-    const s = interpret(input.value);
-    chip.hidden = true; pending = null;
-    if (s.kind === "empty") return view(PLACEHOLDER, "$0.00", "", "");
-    if (s.kind === "invalid") return view(PLACEHOLDER, "$0.00", "", s.error);
-    if (s.kind === "suggest") { chip.textContent = s.suggestion.label; chip.hidden = false; pending = s.suggestion.value; return view(PLACEHOLDER, "$0.00", "", ""); }
-    const options = { dollarsWord: opt("dollarsWord").checked, letterCase: opt("letterCase").value, cents: opt("cents").value };
-    $(root, ".pre").hidden = options.dollarsWord || options.cents === "words";
-    try {
-      const r = formatCheck(s.amount, options);
-      let verdict = null;
-      if (verify.value.trim()) { const v = verifyCheck(s.amount, verify.value); verdict = { ok: v.match, text: v.match ? "✓ The numbers and words match." : `✗ Mismatch. Expected: ${v.expected}` }; }
-      view(r.words, "$" + r.numeric, s.note || "", "", verdict);
-    } catch (e) { view(PLACEHOLDER, "$0.00", "", e.message); }
+    const v = writerView({ amount: input.value, verify: verify.value,
+      options: { dollarsWord: opt("dollarsWord").checked, letterCase: opt("letterCase").value, cents: opt("cents").value } });
+    setWords($(root, "[data-out=words]"), v.words);
+    $(root, "[data-out=words]").classList.toggle("is-empty", v.words === "Your result appears here.");
+    $(root, "[data-out=numeric]").textContent = v.numeric;
+    $(root, "[data-out=note]").textContent = v.note;
+    $(root, "[data-out=error]").textContent = v.error;
+    chip.hidden = !v.chip; chip.textContent = v.chip?.label ?? ""; pending = v.chip?.value ?? null;
+    setVerdict($(root, "[data-out=result]"), v.verdict);
+    copy.disabled = !v.canCopy;
   };
   chip.addEventListener("click", () => { if (pending) { input.value = pending; run(); input.focus(); } });
   copy.addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText($(root, "[data-out=words]").textContent); copy.textContent = "Copied ✓"; }
+    if (copy.disabled) return;
+    try { await navigator.clipboard.writeText($(root, "[data-out=words]").textContent); copy.textContent = "Copied!"; }
     catch { copy.textContent = "Copy unavailable"; }
     setTimeout(() => { copy.textContent = "Copy words"; }, 1800);
   });
@@ -44,19 +42,7 @@ function writer(root) {
 }
 
 function checker(root) {
-  const run = () => {
-    const a = $(root, "[data-in=amount]").value, w = $(root, "[data-in=words]").value;
-    const box = $(root, "[data-out=result]");
-    box.className = "verdict";
-    if (!a.trim() || !w.trim()) { box.textContent = ""; return; }
-    const s = interpret(a);
-    try {
-      if (!s.amount) throw new Error(s.error || s.suggestion?.label || "Enter a valid amount.");
-      const r = verifyCheck(s.amount, w);
-      box.className = "verdict " + (r.match ? "ok" : "bad");
-      box.textContent = r.match ? "✓ The numbers and words match." : `✗ Mismatch. Expected: ${r.expected}`;
-    } catch (e) { box.className = "verdict bad"; box.textContent = e.message; }
-  };
+  const run = () => setVerdict($(root, "[data-out=result]"), checkerView({ amount: $(root, "[data-in=amount]").value, words: $(root, "[data-in=words]").value }));
   root.addEventListener("input", run);
 }
 
