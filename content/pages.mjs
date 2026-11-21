@@ -3,11 +3,12 @@ import { formatCheck } from "../src/js/check.js";
 
 const UPDATED = "2026-11-21";
 const table = (list, options = {}) => `<div class="table-wrap"><table><thead><tr><th>Amount</th><th>Write it as</th></tr></thead><tbody>${list.map((a) => {
-  const r = formatCheck(a, options); return `<tr><td>$${r.numeric}</td><td>${r.words}</td></tr>`; }).join("")}</tbody></table></div>`;
+  const r = formatCheck(a, options); return `<tr><td>$${r.numeric}</td><td>${nb(r.words)}</td></tr>`; }).join("")}</tbody></table></div>`;
 const MIX = ["0.01", "0.75", "130.45", "150", "200", "375", "1200", "1250.50", "1400", "1500", "3000", "10000"];
 const WORDS_WIN = `<h2>If the words and numbers disagree</h2><p>Under UCC § 3-114 (older versions: § 3-118(c)), when an instrument contradicts itself, the written words generally prevail over the numerals. Versions and court decisions vary by state, and your bank decides how to handle a conflicting check. This is general information, not legal advice. To avoid problems, make the two match, or use the checker.</p>`;
 const ASK_BANK = `<p>Banks and employers sometimes ask for a slightly different format. If you are unsure, ask your bank.</p>`;
 
+import { faqBlock, nb, HOME_FAQ, CENTS_FAQ } from "./faq.mjs";
 export const pages = [
   { slug: "", tool: "writer", updated: UPDATED,
     title: "Check Amount in Words Converter | Free Check Writing Tool",
@@ -17,7 +18,7 @@ export const pages = [
     body: `<h2>How it works</h2><ol><li>Type the amount in numbers.</li><li>Adjust the formatting options if your check needs them.</li><li>Copy the words onto the check's long line, then draw a line through any empty space.</li></ol>
 <h2>Examples</h2>${table(MIX)}
 <h2>Should I write “Dollars”?</h2><p>Most checks already print the word Dollars at the end of the line, so it is off by default. Turn it on if your check does not have it.</p>
-<h2>Already wrote the check?</h2><p>Use the verification box above, or the <a href="/amount-in-words-checker/">amount checker</a>, to confirm that the numbers and words match.</p>${ASK_BANK}` },
+<h2>Already wrote the check?</h2><p>Use the verification box above, or the <a href="/amount-in-words-checker/">amount checker</a>, to confirm that the numbers and words match.</p>${ASK_BANK}${faqBlock(HOME_FAQ)}` },
 
   { slug: "how-to-write-a-check-with-cents", tool: "writer", prefill: "130.45", updated: UPDATED,
     title: "How to Write a Check with Cents (Examples + Free Tool)",
@@ -27,7 +28,7 @@ export const pages = [
 <h2>Steps</h2><ol><li>In the box, write the amount with a decimal point and two digits.</li><li>On the long line, write the dollars in words.</li><li>Write “and”, then the cents over 100.</li><li>Draw a line through the unused space so nothing can be added.</li></ol>
 <h2>Examples</h2>${table(MIX)}
 <h2>Special cases</h2><ul><li><strong>No cents:</strong> write 00/100.</li><li><strong>Under ten cents:</strong> keep the zero, as in 05/100.</li><li><strong>Under a dollar:</strong> write “Zero and 75/100”, or spell it out as “Seventy-five cents”.</li><li><strong>Thousands with cents:</strong> $1,250.50 is “One thousand two hundred fifty and 50/100”.</li></ul>
-<h2>Cents written in words</h2><p>Some people write the cents out instead of using a fraction. Both are understood, as long as they match the numbers.</p>${table(["0.75", "1.01", "130.45", "1250"], { cents: "words" })}${WORDS_WIN}` },
+<h2>Cents written in words</h2><p>Some people write the cents out instead of using a fraction. Both are understood, as long as they match the numbers.</p>${table(["0.75", "1.01", "130.45", "1250"], { cents: "words" })}${faqBlock(CENTS_FAQ)}${WORDS_WIN}` },
 
   { slug: "how-to-write-a-check-for-rent", tool: "writer", prefill: "1250", updated: UPDATED,
     title: "How to Write a Check for Rent (Step-by-Step Example)",

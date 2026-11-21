@@ -21,6 +21,7 @@ function writer(root) {
     const v = writerView({ amount: input.value, verify: verify.value,
       options: { dollarsWord: opt("dollarsWord").checked, letterCase: opt("letterCase").value, cents: opt("cents").value } });
     setWords($(root, "[data-out=words]"), v.words);
+    $(root, "[data-out=words]").classList.toggle("is-empty", v.words === "Your result appears here.");
     $(root, "[data-out=numeric]").textContent = v.numeric;
     $(root, "[data-out=note]").textContent = v.note;
     $(root, "[data-out=error]").textContent = v.error;
